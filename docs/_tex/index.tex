@@ -67,6 +67,7 @@
 
 
 \usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -184,6 +185,10 @@
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
 \hypersetup{
   pdftitle={Coup-Proofing via Capital Relocation},
   colorlinks=true,
@@ -319,6 +324,7 @@ Notebook}}
 \subsection{Hypothesis Testing
 (Regression)}\label{hypothesis-testing-regression}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 26\tabcolsep) * \real{0.1126}}
   >{\raggedright\arraybackslash}p{(\linewidth - 26\tabcolsep) * \real{0.0315}}
@@ -389,6 +395,7 @@ Papua New Guinea & PNG & 175 & 175 & Papua New Guinea & 0 & Port Moresby
 (((141.0002 -2\ldots{} & POINT (146.2921 -7.014699) & POINT (147.1925
 -9.464708) \\
 \end{longtable}
+}
 
 \textsubscript{Source:
 \href{https://jpowerj.github.io/gis-manuscript-template/index.qmd.html}{Article
@@ -407,30 +414,32 @@ Notebook}}
 Our evidence indicates that the spatial dynamics of \textbf{conflict}
 differ from the spatial dynamics of \textbf{misgovernance}. Whereas
 
-\phantomsection\label{refs}
+\protect\phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
 \bibitem[\citeproctext]{ref-berger_myanmars_2021}
-Berger, Miriam. 2021. {``Myanmar's Military Built a New Capital as a
-Haven for Power. {Other} Countries Have Tried That, Too.''}
-\emph{Washington Post}, February.
-\url{https://www.washingtonpost.com/world/2021/02/06/myanmars-military-built-new-capital-haven-power-other-countries-have-tried-that-too/}.
+Berger, Miriam. 2021.
+{``\href{https://www.washingtonpost.com/world/2021/02/06/myanmars-military-built-new-capital-haven-power-other-countries-have-tried-that-too/}{Myanmar's
+Military Built a New Capital as a Haven for Power. {Other} Countries
+Have Tried That, Too.}''} \emph{Washington Post}, February 6, 2021.
 
 \bibitem[\citeproctext]{ref-campante_capital_2019}
 Campante, Filipe R., Quoc-Anh Do, and Bernardo Guimaraes. 2019.
-{``Capital {Cities}, {Conflict}, and {Misgovernance}.''} \emph{American
-Economic Journal: Applied Economics} 11 (3): 298--337.
-\url{https://doi.org/10.1257/app.20170111}.
+{``\href{https://doi.org/10.1257/app.20170111}{Capital {Cities},
+{Conflict}, and {Misgovernance}}.''} \emph{American Economic Journal:
+Applied Economics} 11 (3): 298--337.
 
 \bibitem[\citeproctext]{ref-hall_population_2019}
 Hall, Ola, Maria Francisca Archila Bustos, Niklas Boke Olén, and Thomas
-Niedomysl. 2019. {``Population Centroids of the World Administrative
-Units from Nighttime Lights 1992-2013.''} \emph{Scientific Data} 6 (1):
-235. \url{https://doi.org/10.1038/s41597-019-0250-z}.
+Niedomysl. 2019.
+{``\href{https://doi.org/10.1038/s41597-019-0250-z}{Population Centroids
+of the World Administrative Units from Nighttime Lights 1992-2013}.''}
+\emph{Scientific Data} 6 (1): 235.
 
 \bibitem[\citeproctext]{ref-sackur_equatorial_2012}
-Sackur, Stephen. 2012. {``Equatorial {Guinea}: {Obiang}'s Future
-Capital, {Oyala}.''} \emph{BBC News}, December.
-\url{https://www.bbc.com/news/magazine-20731448}.
+Sackur, Stephen. 2012.
+{``\href{https://www.bbc.com/news/magazine-20731448}{Equatorial
+{Guinea}: {Obiang}'s Future Capital, {Oyala}}.''} \emph{BBC News:
+Magazine}, December 14, 2012.
 
 \end{CSLReferences}
 

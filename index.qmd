@@ -8,13 +8,15 @@ authors:
     corresponding: true
 df-print: kable
 bibliography: GIS_Manuscript.bib
+csl: chicago-17-no-url.csl
 title-block-banner: "#E69F0095"
 title-block-banner-color: "black"
 format:
   html:
     df-print: kable
     include-in-header:
-      text: "<script type='module' src='https://js.arcgis.com/4.34/embeddable-components/'></script>"
+      text: |
+        <script type='module' src='https://js.arcgis.com/4.34/embeddable-components/'></script>
   pdf:
     # https://quarto.org/docs/reference/formats/pdf.html
     link-citations: true
@@ -23,7 +25,7 @@ prefer-html: true
 
 ## Introduction
 
-Several previous studies have found robust relationships between spatial properties of a country's **capital city** and that country's propensity for **conflict** and **misgovernance**.
+Several previous studies have found robust relationships between spatial properties of a country's **capital city** and that country's propensity for ethnic and political **conflict** and **"instability"**.
 
 Perceptions of this linkage also have an effect on "coup-proofing" decisions made by national governments. A recent BBC interview with Equatorial Guinea's President Teodoro Obiang, for example, highlighted this as a factor behind his decision to relocate the capital city:
 
@@ -37,7 +39,7 @@ Most of these studies, however, are based on observations of **conflict events**
 
 ## Literature Review
 
-@campante_capital_2019 analyzes the relationship between the location of a **capital city** and the degree of conflict and misgovernance in a given country. Their two key findings are that:
+@campante_capital_2019 analyzes the relationship between the distance to a **capital city** and the **appearance of conflict** in a given country. Their two key findings are that:
 
 > Conflict is more likely to emerge (and dislodge incumbents) closer to the capital
 
@@ -45,15 +47,29 @@ and
 
 > Isolated capitals are associated with misgovernance.
 
-This first finding is illustrated in @fig-conflict-dist
+This first finding is illustrated in @fig-conflict-dist.
 
-![](images/conflict_dist.svg){#fig-conflict-dist}
+![The "core" finding in @campante_capital_2019, where the probability of conflict decreases with distance from a national capital, and where this effect is *greater* for less-dense states.](images/conflict_dist.svg){#fig-conflict-dist}
+
+Within the political economy literature, a series of studies starting with @nunn_ruggedness_2012 have shown how the effects of geospatial features like "terrain ruggedness" can differ wildly (e.g., can flip signs) between African and non-African states due to the history of slave-raiding and its effect on societal levels of trust [@nunn_slave_2011]. @herbst_states_2000 thus "zooms in" specifically on the effect of capital-to-population distance on political instability within Sub-Saharan Africa.
+
+This historically-informed focus on postcolonial state-building provides a more nuanced view, wherein the single independent variable (distance to national capital) used in studies like @campante_capital_2019 is disaggregated into something like "distribution of major population centers relative to national capital".
+
+This disaggregation, in turn, allows **first-order** and **second-order** GIS measures to be used to define and test hypotheses about the relationship between geography and political instability. First, "population centers" are defined based on first-order **population intensity functions**: subregions whose mean population intensity is above a certain threshold are interpreted as potentially "rebellious" population centers, over which that the central government in the capital aims to maximize control^[Sociologically, @herbst_states_2000 thus follows the "Weberian" definition of the state, as the entity possessing a monopoly over the legally-legitimized use of violence over a certain territory [@weber_vocation_1919].]. The *difficulty* of exerting this control is then defined based on a second-order **pairwise correlation functions**, where greater average distances between *pairs* of population centers are hypothesized to cause greater instability.
+
+As shown in @fig-5-2, for example, @herbst_states_2000 classifies the Democratic Republic of the Congo as a state with "difficult" population density based on these criteria, since the **capital** and largest city (Kinshasa) in the far west of the country is extremely distant from the next two largest cities (Mbuji-Mayi near the direct center and Lubumbashi in the far southeast). In contrast, Benin's population density is classified as "favorable", as density decreases with almost perfect exponential decay per increase in distance from the capital (Porto-Novo) and largest city (Cotonou), both in the far south of the country.
+
+:::: {layout="[1,1]" layout-align="center"}
+
+![Example countries with population distributions classified as "favorable" (with respect to centralized state power and stability) in @herbst_states_2000](images/fig5-2.svg){#fig-5-2 fig-align="center"}
+
+![Example countries with population distributions classified as "difficult" (with respect to centralized state power and stability) in @herbst_states_2000](images/fig5-4.svg){#fig-5-4 fig-align="center"}
+
+::::
 
 ## Methodology
 
-The **population centroids** we use herein might require some explanation, since the term "centroid" can be ambiguous.
-
-Here, the population centroids are drawn from @hall_population_2019
+The **population centroids** we use herein might require some explanation, since the term "centroid" can be ambiguous. Here, we draw on the population centroid definition (along with the data) used in @hall_population_2019.
 
 ## Exploratory Data Analysis (EDA)
 
@@ -64,6 +80,8 @@ Here we plot the base GIS objects we're analyzing: the location of each **capita
 library(tidyverse) |> suppressPackageStartupMessages()
 library(sf) |> suppressPackageStartupMessages()
 library(mapview) |> suppressPackageStartupMessages()
+# Fixes "API Key Required" message
+mapviewOptions(basemaps = c("Esri.WorldGrayCanvas","Stadia.AlidadeSmoothDark","OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap"))
 library(units) |> suppressPackageStartupMessages()
 cb_palette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 ```
